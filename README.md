@@ -5,4 +5,4 @@ Client of https://imsolo.pro
 
 ### We are looking forward for developers
 
-Disocrd: [https://discord.com/invite/5gXJaJQ](https://discord.com/invite/5gXJaJQ)
+Discord: [https://discord.com/invite/5gXJaJQ](https://discord.com/invite/5gXJaJQ)
