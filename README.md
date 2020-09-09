@@ -1,6 +1,8 @@
 # imsolo-client
 Client of https://imsolo.pro
 
+For server side, visit: https://github.com/jimboy3100/imsolo-servers
+
 ![alt tag](https://legendmod.ml/banners/iconSolo.png)
 
 Public index CDN: https://rawcdn.githack.com/jimboy3100/imsolo-client/4afef9fb8734ac95698bd29a49ede3e7c4396e9c/web/index.html
