@@ -1,5 +1,5 @@
-(function() {
-    "use strict";
+//(function() {
+    //"use strict";
     if (typeof WebSocket === 'undefined' || typeof DataView === 'undefined' ||
         typeof ArrayBuffer === 'undefined' || typeof Uint8Array === 'undefined') {
         alert('Your browser does not support required features, please update your browser or get a new one.');
@@ -276,6 +276,7 @@
         ws.onclose = wsClose;
     }
     function wsOpen() {
+		
         disconnectDelay = 1000;
         byId("connecting").hide();
         wsSend(SEND_254);
@@ -1817,4 +1818,4 @@
         byId("settings-window").show(0.5);
     };
     window.addEventListener("DOMContentLoaded", init);
-})();
+//})();
