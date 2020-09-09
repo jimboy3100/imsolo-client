@@ -1786,7 +1786,9 @@
             var div = /ip=([\w\W]+):([0-9]+)/.exec(window.location.search.slice(1))
             if (div) wsInit(div[1] + ":" + div[2]);
         }
-        window.setserver(byId("gamemode").value);
+		else{
+			window.setserver(byId("gamemode").value);
+		}
         window.requestAnimationFrame(drawGame);
         log.info("init done in " + (Date.now() - LOAD_START) + "ms");
     }
