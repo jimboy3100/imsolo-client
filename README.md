@@ -3,7 +3,7 @@ Client of https://imsolo.pro
 
 ![alt tag](https://legendmod.ml/banners/iconSolo.png)
 
-Public CDN use: https://rawcdn.githack.com/jimboy3100/imsolo-client/4afef9fb8734ac95698bd29a49ede3e7c4396e9c/web/index.html
+Public index CDN: https://rawcdn.githack.com/jimboy3100/imsolo-client/4afef9fb8734ac95698bd29a49ede3e7c4396e9c/web/index.html
 
 Devs only index: https://raw.githack.com/jimboy3100/imsolo-client/master/web/index.html
 
