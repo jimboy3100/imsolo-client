@@ -22,7 +22,7 @@
     <script src="assets/js/skinhandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
-<body onload="setserver('imsolo.pro:4101');skinHandler()">
+<body onload="setserver('127.0.0.1:8888');skinHandler()">
     <div id="gallery" onclick="if (event.target == this) this.hide()" style="display: none;">
         <div id="gallery-content">
             <div id="gallery-header">Free Skins - Gallery</div>
@@ -55,6 +55,21 @@
                     <label class="control control-checkbox">Fill Skins<input id="fillSkin" type="checkbox" /><div class="control_indicator"></div></label>
                     <label class="control control-checkbox">Show Background Sectors<input id="backgroundSectors" type="checkbox" /><div class="control_indicator"></div></label>
                     <label class="control control-checkbox">Enable Smooth Animations<input id="jellyPhysics" type="checkbox" /><div class="control_indicator"></div></label>
+                    
+                    <div id="keys">
+                        <p class="keyName">Feed
+                            <input type="text" id="feed" class="key" maxlength="1"/>
+                        </p>
+                        <p class="keyName">DoubleSplit
+                            <input type="text" id="doublesplit" class="key" maxlength="1"/>
+                        </p>
+                        <p class="keyName">TripleSplit
+                            <input type="text" id="triplesplit" class="key" maxlength="1"/>
+                        </p>
+                        <p class="keyName">16x Split
+                            <input type="text" id="16split" class="key" maxlength="1"/>
+                        </p>
+                    </div>
                 </div>      
             </div>
         </div>
