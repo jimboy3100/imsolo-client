@@ -1596,93 +1596,7 @@
             ctx.drawImage(canvas, x - canvas.width / 2, y - canvas.height / 2);
         }
         ctx.restore();
-    }
-    function keydown(event) {
-        var key = event.key.toLowerCase();
-        if (IE_KEYS.hasOwnProperty(key)) key = IE_KEYS[key]; // IE fix
-        if (key == "enter") {
-            if (escOverlayShown || !settings.showChat) return;
-            if (isTyping) {
-                chatBox.blur();
-                var text = chatBox.value;
-                if (text.length > 0) sendChat(text);
-                chatBox.value = "";
-            } else chatBox.focus();
-        } else if (pressed[key]) {
-            return;
-        } else if (key == "escape") {
-            pressed[key] = true;
-            escOverlayShown ? hideESCOverlay() : showESCOverlay();
-        } else {
-            if (isTyping || escOverlayShown) return;
-            if (pressed.hasOwnProperty(key)) pressed[key] = true;
-            var code = KEY_TO_CODE[key];
-            if (code !== undefined) wsSend(code);
-            if (key == "w") {
-                macroIntervalID = setInterval(function() {
-                wsSend(code);
-            }, macroCooldown);
-            }
-            if (key == "r") {
-                macroIntervalEJECT = setInterval(function() {
-                wsSend(code);
-            }, macroCooldown);
-            }
-            if (key == "q") minionControlled = !minionControlled;
-            if(key == "shift") {
-                wsSend(UINT8_CACHE[17]);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[17]);
-                }, macroCooldown2);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[17]);
-                }, macroCooldown2*2);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[17]);
-                }, macroCooldown2*3);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[17]);
-                }, macroCooldown2*4);
-                    }
-            if(key == "d") {
-                wsSend(UINT8_CACHE[17]);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[17]);
-                }, macroCooldown3*2);
-                    }
-
-            if(key == "x") {
-                wsSend(UINT8_CACHE[22]);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[22]);
-                }, macroCooldown5*2);
-                    }
-             if(key == "c") {
-                wsSend(UINT8_CACHE[22]);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[22]);
-                }, macroCooldown2);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[22]);
-                }, macroCooldown2*2);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[22]);
-                }, macroCooldown2*3);
-                setTimeout(function(){
-                    wsSend(UINT8_CACHE[22]);
-                }, macroCooldown2*4);
-                    }
-            
-        }
-    }
-    function keyup(event) {
-        var key = event.key.toLowerCase();
-        if (IE_KEYS.hasOwnProperty(key)) key = IE_KEYS[key]; // IE fix
-        if (pressed.hasOwnProperty(key)) pressed[key] = false;
-        if (key == "q") wsSend(UINT8_CACHE[19]);
-        if (key == "w") clearInterval(macroIntervalID);
-        if (key == "r") clearInterval(macroIntervalEJECT);
-    }
+    } 
     function handleScroll(event) {
         if (event.target !== mainCanvas) return;
         camera.userZoom *= event.deltaY > 0 ? 0.8 : 1.2;
@@ -1691,6 +1605,208 @@
     }
 
     function init() {
+        (function save() {
+            setTimeout(() => {
+                setInterval(() => {
+                    localStorage.setItem('feed', document.getElementById('feed').value)
+                    localStorage.setItem('doublesplit', document.getElementById('doublesplit').value)
+                    localStorage.setItem('triplesplit', document.getElementById('triplesplit').value)
+                    localStorage.setItem('16split', document.getElementById('16split').value)
+                }, 1);
+            }, 1000);
+        })();
+        (function load() {
+            setTimeout(() => {
+                let feed = localStorage.getItem('feed');
+                let dS = localStorage.getItem('doublesplit');
+                let tS = localStorage.getItem('triplesplit');
+                let split16 = localStorage.getItem('16split');
+                document.getElementById('feed').value = feed;
+                document.getElementById('doublesplit').value = dS; 
+                document.getElementById('triplesplit').value = tS;
+                document.getElementById('16split').value = split16;
+            }, 1);
+        })();
+        let feed = document.getElementById('feed'),
+        double = document.getElementById('doublesplit'),
+        triple = document.getElementById('triplesplit'),
+        split16 = document.getElementById('16split'),
+        keys = [feed, double, triple, split16],
+        keyInput = document.getElementsByClassName('key');
+        const handleMouseInput = (() => {
+            for (i = 0; i < keys.length; i++) {
+                [...document.querySelectorAll(".key")].forEach( el => 
+                    el.addEventListener('contextmenu', e => e.preventDefault())
+                );
+                keys[i].addEventListener("mousedown", (e) => {
+                    e.target.value = "MOUSE" + e.which;
+                });
+                keys[i].addEventListener("keydown", (e) => {
+                    e.target.value = String.fromCharCode(e.keyCode);
+                });
+            }
+        })();
+        window.isSpectating = false;
+        let EjectDown = false,
+        speed = 110,
+        menu = document.getElementById('overlays'),
+        inMenu = true;
+        const keydown = (event) => {
+            if (document.getElementById('overlays').style.display == "none") inMenu = false;
+            if (!isTyping && inMenu == false) {
+                switch (event.keyCode) {
+                    case document.getElementById('feed').value.charCodeAt(0) - 32:
+                        if (!EjectDown) {
+                            wsSend(UINT8_CACHE[21]);
+                            EjectDown = true;
+                            setTimeout(eject, speed);
+                            setTimeout(() => {
+                                speed = 10;
+                            }, 450)
+                        }
+                        break;
+                    case 32:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('doublesplit').value.charCodeAt(0) - 32:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[17]);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('triplesplit').value.charCodeAt(0) - 32:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[17]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[17]);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('16split').value.charCodeAt(0) - 32:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[17]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[17]);
+                                    setTimeout(function(){
+                                        wsSend(UINT8_CACHE[17]);
+                                    }, macroCooldown2);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case 27:
+                        inMenu = true;
+                        showESCOverlay()
+                        window.isSpectating = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (event.keyCode == 13) {
+                if (escOverlayShown || !settings.showChat) return;
+                if (isTyping) {
+                    chatBox.blur();
+                    var text = chatBox.value;
+                    if (text.length > 0) sendChat(text);
+                    chatBox.value = "";
+                } else chatBox.focus();
+            }
+        }
+        const keyup = (event) => {
+            switch (event.keyCode) {
+                case document.getElementById('feed').value.charCodeAt(0) - 32:
+                    EjectDown = false;
+                    speed = 100;
+                    break;
+                default:
+                    break;
+            }
+        }
+        const mousedown = (event) => {
+            if (document.getElementById('overlays').style.display == "none") inMenu = false;
+            if (!isTyping && inMenu == false) {
+                switch (event.which) {
+                    case document.getElementById('feed').value.charCodeAt(5) - 48:
+                        if (!EjectDown) {
+                            wsSend(UINT8_CACHE[21]);
+                            EjectDown = true;
+                            setTimeout(eject, speed);
+                            setTimeout(() => {
+                                speed = 10;
+                            }, 450)
+                        }
+                        break;
+                    case document.getElementById('doublesplit').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[17]);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('triplesplit').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[17]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[17]);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('16split').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[17]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[17]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[17]);
+                                    setTimeout(function(){
+                                        wsSend(UINT8_CACHE[17]);
+                                    }, macroCooldown2);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        const mouseup = (event) => {
+            switch (event.which) {
+                case document.getElementById('feed').value.charCodeAt(5) - 48:
+                    EjectDown = false;
+                    speed = 100;
+                    break;
+                default:
+                    break;
+            }
+        }
+        const eject = () => {
+            if (EjectDown) {
+                wsSend(UINT8_CACHE[21]);
+                setTimeout(eject, speed);
+            }
+        }
         mainCanvas = document.getElementById("canvas");
         mainCtx = mainCanvas.getContext("2d");
         chatBox = byId("chat_textbox");
@@ -1710,6 +1826,8 @@
         });
         window.onkeydown = keydown;
         window.onkeyup = keyup;
+        window.onmousedown = mousedown;
+        window.onmouseup = mouseup;
         chatBox.onblur = function() {
             isTyping = false;
             drawChat();
@@ -1797,6 +1915,7 @@
         wsInit(arg);
     };
     window.spectate = function(a) {
+        window.isSpectating = true;
         wsSend(UINT8_CACHE[1]);
         stats.maxScore = 0;
         hideESCOverlay();
