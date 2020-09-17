@@ -349,6 +349,7 @@
                         cell.nx = x;
                         cell.ny = y;
                         cell.ns = s;
+                        cell.viewRange = Math.ceil(cell.ns * camera.userZoom)
                         if (color) cell.setColor(color);
                         if (name) cell.setName(name);
                         if (skin) cell.setSkin(skin);
@@ -1240,6 +1241,7 @@
         ox: 0, x: 0, nx: 0,
         oy: 0, y: 0, ny: 0,
         os: 0, s: 0, ns: 0,
+        viewRange: 0,
         nameSize: 0, drawNameSize: 0,
         color: "#FFF", sColor: "#E5E5E5",
         skin: null, jagged: false,
@@ -1452,11 +1454,12 @@
         drawText: function(ctx) {
             if (this.s < 20 || this.jagged) return;
             var y = this.y;
-            if (this.name && settings.showNames) {
+            let range = 350; // how far to zoom out from the cell before hiding names and mass
+            if (this.name && settings.showNames && this.viewRange > range) {
                 drawText(ctx, false, this.x, this.y, this.nameSize, this.drawNameSize, this.name);
                 y += Math.max(this.s / 4.5, this.nameSize / 1.5);
             }
-            if (settings.showMass && (cells.mine.indexOf(this.id) !== -1 || cells.mine.length === 0)) {
+            if (settings.showMass && (cells.mine.indexOf(this.id) !== -1 || cells.mine.length === 0) && this.viewRange > range) {
                 var mass = (~~(this.s * this.s / 100)).toString();
                 drawText(ctx, true, this.x, y, this.nameSize / 2, this.drawNameSize / 2, mass);
             }
@@ -1600,8 +1603,8 @@
     function handleScroll(event) {
         if (event.target !== mainCanvas) return;
         camera.userZoom *= event.deltaY > 0 ? 0.8 : 1.2;
-        camera.userZoom = Math.max(camera.userZoom, settings.moreZoom ? 0.1 : 1);
-        camera.userZoom = Math.min(camera.userZoom, 4);
+        camera.userZoom = Math.max(camera.userZoom, 0.1);
+        camera.userZoom = Math.min(camera.userZoom, 1);
     }
 
     function init() {
@@ -1655,7 +1658,7 @@
             if (document.getElementById('overlays').style.display == "none") inMenu = false;
             if (!isTyping && inMenu == false) {
                 switch (event.keyCode) {
-                    case document.getElementById('feed').value.charCodeAt(0) - 32:
+                    case document.getElementById('feed').value.charCodeAt(0):
                         if (!EjectDown) {
                             wsSend(UINT8_CACHE[21]);
                             EjectDown = true;
@@ -1671,7 +1674,7 @@
                             wsSend(UINT8_CACHE[17]);
                         }, macroCooldown2);
                         break;
-                    case document.getElementById('doublesplit').value.charCodeAt(0) - 32:
+                    case document.getElementById('doublesplit').value.charCodeAt(0):
                         if (event.repeat) return;
                         setTimeout(function(){
                             wsSend(UINT8_CACHE[17]);
@@ -1680,7 +1683,7 @@
                             }, macroCooldown2);
                         }, macroCooldown2);
                         break;
-                    case document.getElementById('triplesplit').value.charCodeAt(0) - 32:
+                    case document.getElementById('triplesplit').value.charCodeAt(0):
                         if (event.repeat) return;
                         setTimeout(function(){
                             wsSend(UINT8_CACHE[17]);
@@ -1692,7 +1695,7 @@
                             }, macroCooldown2);
                         }, macroCooldown2);
                         break;
-                    case document.getElementById('16split').value.charCodeAt(0) - 32:
+                    case document.getElementById('16split').value.charCodeAt(0):
                         if (event.repeat) return;
                         setTimeout(function(){
                             wsSend(UINT8_CACHE[17]);
@@ -1728,7 +1731,7 @@
         }
         const keyup = (event) => {
             switch (event.keyCode) {
-                case document.getElementById('feed').value.charCodeAt(0) - 32:
+                case document.getElementById('feed').value.charCodeAt(0):
                     EjectDown = false;
                     speed = 100;
                     break;
