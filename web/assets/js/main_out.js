@@ -1634,7 +1634,12 @@
         double = document.getElementById('doublesplit'),
         triple = document.getElementById('triplesplit'),
         split16 = document.getElementById('16split'),
-        keys = [feed, double, triple, split16],
+        botFeed = document.getElementById('botFeed'),
+        botSplit = document.getElementById('botSplit'),
+        botDouble = document.getElementById('botDoubleSplit'),
+        botTriple = document.getElementById('botTripleSplit'),
+        bot16x = document.getElementById('bot16x'),
+        keys = [feed, double, triple, split16, botFeed, botSplit, botDouble, botTriple, bot16x],
         keyInput = document.getElementsByClassName('key');
         const handleMouseInput = (() => {
             for (i = 0; i < keys.length; i++) {
@@ -1652,6 +1657,8 @@
         window.isSpectating = false;
         let EjectDown = false,
         speed = 110,
+        botEjectDown = false,
+        botFeedSpeed = 85,
         menu = document.getElementById('overlays'),
         inMenu = true;
         const keydown = (event) => {
@@ -1710,6 +1717,58 @@
                             }, macroCooldown2);
                         }, macroCooldown2);
                         break;
+                    case document.getElementById('botFeed').value.charCodeAt(0):
+                        if (!botEjectDown) {
+                            wsSend(UINT8_CACHE[23]);
+                            botEjectDown = true;
+                            setTimeout(botEject, botFeedSpeed);
+                            setTimeout(() => {
+                                botFeedSpeed = 60;
+                            }, 450)
+                        }
+                        break;
+                    case document.getElementById('botSplit').value.charCodeAt(0):
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('botDoubleSplit').value.charCodeAt(0):
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[22]);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('botTripleSplit').value.charCodeAt(0):
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[22]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[22]);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('bot16x').value.charCodeAt(0):
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[22]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[22]);
+                                    setTimeout(function(){
+                                        wsSend(UINT8_CACHE[22]);
+                                    }, macroCooldown2);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
                     case 27:
                         inMenu = true;
                         showESCOverlay()
@@ -1734,6 +1793,10 @@
                 case document.getElementById('feed').value.charCodeAt(0):
                     EjectDown = false;
                     speed = 100;
+                    break;
+                case document.getElementById('botFeed').value.charCodeAt(0):
+                    botEjectDown = false;
+                    botFeedSpeed = 85;
                     break;
                 default:
                     break;
@@ -1789,6 +1852,58 @@
                             }, macroCooldown2);
                         }, macroCooldown2);
                         break;
+                    case document.getElementById('botFeed').value.charCodeAt(5) - 48:
+                        if (!botEjectDown) {
+                            wsSend(UINT8_CACHE[23]);
+                            botEjectDown = true;
+                            setTimeout(botEject, botFeedSpeed);
+                            setTimeout(() => {
+                                botFeedSpeed = 60;
+                            }, 450)
+                        }
+                        break;
+                    case document.getElementById('botSplit').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('botDoubleSplit').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[22]);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('botTripleSplit').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[22]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[22]);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
+                    case document.getElementById('bot16x').value.charCodeAt(5) - 48:
+                        if (event.repeat) return;
+                        setTimeout(function(){
+                            wsSend(UINT8_CACHE[22]);
+                            setTimeout(function(){
+                                wsSend(UINT8_CACHE[22]);
+                                setTimeout(function(){
+                                    wsSend(UINT8_CACHE[22]);
+                                    setTimeout(function(){
+                                        wsSend(UINT8_CACHE[22]);
+                                    }, macroCooldown2);
+                                }, macroCooldown2);
+                            }, macroCooldown2);
+                        }, macroCooldown2);
+                        break;
                     default:
                         break;
                 }
@@ -1800,6 +1915,10 @@
                     EjectDown = false;
                     speed = 100;
                     break;
+                case document.getElementById('botFeed').value.charCodeAt(5) - 48:
+                    botEject = false;
+                    botFeedSpeed = 85;
+                    break;
                 default:
                     break;
             }
@@ -1808,6 +1927,12 @@
             if (EjectDown) {
                 wsSend(UINT8_CACHE[21]);
                 setTimeout(eject, speed);
+            }
+        }
+        const botEject = () => {
+            if (botEjectDown) {
+                wsSend(UINT8_CACHE[23]);
+                setTimeout(botEject, botFeedSpeed);
             }
         }
         mainCanvas = document.getElementById("canvas");
