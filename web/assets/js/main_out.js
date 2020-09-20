@@ -1,4 +1,4 @@
-//v0.2
+//v0.3
 if (
   typeof WebSocket === "undefined" ||
   typeof DataView === "undefined" ||
@@ -689,7 +689,7 @@ var pressed = {
 var eatSound = new Sound("./assets/sound/eat.mp3", 0.5, 10);
 var pelletSound = new Sound("./assets/sound/pellet.mp3", 0.5, 10);
 
-hideServerURL()
+
 
 request("skinList.txt", function (data) {
   var skins = data.split(",");
@@ -1733,6 +1733,7 @@ function handleScroll(event) {
 }
 
 function init() {
+	hideServerURL()
   (function save() {
     setTimeout(() => {
       setInterval(() => {
