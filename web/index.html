@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
     <meta name="robots" content="index, follow">
     <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>IMSOLO.PRO WEB (testing)</title>
+    <title>IMSOLO.PRO WEB</title>
     <link id="favicon" rel="icon" type="image/png" href="assets/img/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu:700" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +23,7 @@
     <script src="assets/js/skinhandler.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
-<body onload="setserver('127.0.0.1:8888');skinHandler()">
+<body onload="setserver('imsolo.pro:2102');skinHandler()">
     <div id="gallery" onclick="if (event.target == this) this.hide()" style="display: none;">
         <div id="gallery-content">
             <div id="gallery-header">Free Skins - Gallery</div>
@@ -141,13 +142,19 @@
                             <table>
                                 <tbody>
                                     <div class="gamemodesDisplay">
-                                        <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2110')">BETA PARTY MODE V2<img class="img-gamemodes-imsolo-megasplit" src="assets/img/party.png" /></button>
-                                        <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2109')"><span class="newBadge">NEW</span> BETA SELFEED<img class="img-gamemodes-imsolo-megasplit" src="assets/img/crazyselfeed.png" /></button>
+                                        <button
+                                            class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder"
+                                            onclick="setserver('imsolo.pro:2102')"><span class="newBadge">NEW</span> Mega FFA<img class="img-gamemodes-imsolo-megasplit"
+                                                src="assets/img/party.png" /></button>
+                                    </div>
+                                    <div class="gamemodesDisplay">
+                                        <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2110')">BIG BOTS PARTY MODE<img class="img-gamemodes-imsolo-megasplit" src="assets/img/party.png" /></button>
+                                        <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2109')"><span class="newBadge">POPULAR</span> SELFEED<img class="img-gamemodes-imsolo-megasplit" src="assets/img/crazyselfeed.png" /></button>
                                         <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2100')"><span class="newBadge">NEW</span>BETA 1v1 SCRIMS<img class="img-gamemodes-imsolo-megasplit" src="assets/img/1v1.png" /></button>
                                       </div>
                                   <div class="gamemodesDisplay">
                                     <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:4110')">PARTY MEGASPLIT<img class="img-gamemodes-imsolo-megasplit" src="assets/img/megasplit.png" /></button>
-                                    <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2108')">BETA MEGASPLIT<!--  <span class="newBadge">NEW</span> --><img class="img-gamemodes-imsolo-megasplit" src="assets/img/megasplit.png" /></button>
+                                    <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2108')"><span class="newBadge">POPULAR</span> MEGASPLIT<!--  <span class="newBadge">NEW</span> --><img class="img-gamemodes-imsolo-megasplit" src="assets/img/megasplit.png" /></button>
                                     <button class="button-gamemodes-imsolo-style-megasplit button-gamemodes-select whiteborder" onclick="setserver('imsolo.pro:2104')">BETA PARTY MODE<img class="img-gamemodes-imsolo-megasplit" src="assets/img/party.png" /></button>
                                   </div>
                                     <tr>
@@ -208,16 +215,16 @@
                             <br>
                             <h4>imsolo.pro/web - Changelog</h4>
                             <br>
-                            <p><span class="newBadge">NEW UPDATE :</span> Beta Self-feed</p>
+                            <p><span class="newBadge">NEW UPDATE:</span> Custom Keybinds</p>
                             <p>----------------</p>
-                            <p>- Instant merging</p>
-                            <p>- Spawn big</p>
-                            <p>- Get mass by selfeeding</p>
+                            <p><span class="newBadge">Macros:</span> Customize your keybinds</p>
+                            <p><span class="newBadge">Lag :</span> Added auto-hide nick to reduce lag</p>
+                            <p>These changes are from : sos#7502</p>
                             <p>----------------</p>
-                            <p>Quick note (lags)</p>
-                            <p>If you lag, use Chrome Canary</p>
-                            <p>or Opera GX browsers.</p>
+                            <p><span class="newBadge">NEW Gamemode:</span> Mega FFA</p>
                             <p>----------------</p>
+                            <p>- FFA map 4x bigger</p>
+                            <p>- Antiteaming like Agar</p>
                             <p></p>
                             <p></p>
                             <p>Join the discord to give some feedback :)</p>
