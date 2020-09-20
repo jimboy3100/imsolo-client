@@ -56,7 +56,7 @@
                     <label class="control control-checkbox">Fill Skins<input id="fillSkin" type="checkbox" /><div class="control_indicator"></div></label>
                     <label class="control control-checkbox">Show Background Sectors<input id="backgroundSectors" type="checkbox" /><div class="control_indicator"></div></label>
                     <label class="control control-checkbox">Enable Smooth Animations<input id="jellyPhysics" type="checkbox" /><div class="control_indicator"></div></label>
-					<label class="control control-checkbox">Server URL<input id="serverURL" type="checkbox" /><div class="control_indicator"></div></label>
+					<label class="control control-checkbox">Server URL<input id="showServerURL" type="checkbox" /><div class="control_indicator"></div></label>
                     
                     <div id="keys">
                         <p class="keyName">Feed
@@ -106,8 +106,8 @@
             <button id="gallery-btn" onclick="openSkinsList()" class="btn btn-play btn-primary btn-needs-server btn-info glyphicon glyphicon-picture"></button>
             <div style="text-align:center;" class="form-group">
                 <input id="skin" class="form-control" placeholder="Skin Name"> 
-				<input id="serverURL" class="form-control" placeholder="Server URL"  style="width:80%"> 
-				<button id="server-btn" onclick="openServer()" class="btn btn-play btn-primary btn-needs-server btn-info glyphicon glyphicon-folder-open"></button>
+				<input type="hidden" id="serverURL" class="form-control" placeholder="Server URL" style="width:80%"> 
+				<button type="hidden" id="server-btn" onclick="openServer()" class="btn btn-play btn-primary btn-needs-server btn-info glyphicon glyphicon-folder-open"></button>
             </div>
             <div id="settings" class="checkbox">
                 <table style="width:100%">
