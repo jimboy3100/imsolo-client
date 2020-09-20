@@ -1731,6 +1731,19 @@ function handleScroll(event) {
   camera.userZoom = Math.max(camera.userZoom, 0.1);
   camera.userZoom = Math.min(camera.userZoom, 1);
 }
+function openServer() {
+	if ($("#serverURL").val()!=null && $("#serverURL").val()!= ""){
+		wsInit($("#serverURL").val())
+	}
+}
+function showServerURL() {
+	$("#serverURL").show()
+	$("#server-btn").show()
+}
+function hideServerURL() {
+	$("#serverURL").hide()
+	$("#server-btn").hide()
+}
 
 function init() {
 	hideServerURL()
@@ -2232,19 +2245,7 @@ window.changeSkin = function (a) {
   byId("gallery-yt").hide();
 };
 
-function openServer() {
-	if ($("#serverURL").val()!=null && $("#serverURL").val()!= ""){
-		wsInit($("#serverURL").val())
-	}
-}
-function showServerURL() {
-	$("#serverURL").show()
-	$("#server-btn").show()
-}
-function hideServerURL() {
-	$("#serverURL").hide()
-	$("#server-btn").hide()
-}
+
 window.openSkinsList = function () {
   if (byId("gallery-body").innerHTML == "") buildGallery();
   byId("gallery").show(0.5);
