@@ -1,4 +1,4 @@
-//v0.3
+//v0.4
 if (
   typeof WebSocket === "undefined" ||
   typeof DataView === "undefined" ||
@@ -2217,7 +2217,7 @@ function init() {
 window.setserver = function (arg) {
   if (wsUrl === arg) return;
   wsInit(arg);
-  ("serverURL").val(arg);
+  $("#serverURL").val(arg);
 };
 window.spectate = function (a) {
   window.isSpectating = true;
@@ -2232,16 +2232,16 @@ window.changeSkin = function (a) {
   byId("gallery-yt").hide();
 };
 
-window.openServer() = function () {
+function openServer() {
 	if ($("#serverURL").val()!=null && $("#serverURL").val()!= ""){
 		wsInit($("#serverURL").val())
 	}
 }
-window.showServerURL = function () {
+function showServerURL() {
 	$("#serverURL").show()
 	$("#server-btn").show()
 }
-window.hideServerURL = function () {
+function hideServerURL() {
 	$("#serverURL").hide()
 	$("#server-btn").hide()
 }
