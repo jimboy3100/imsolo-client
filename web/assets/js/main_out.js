@@ -1,5 +1,4 @@
-//(function() {
-//"use strict";
+//v0.1
 if (
   typeof WebSocket === "undefined" ||
   typeof DataView === "undefined" ||
@@ -674,6 +673,7 @@ var settings = {
   fillSkin: true,
   backgroundSectors: false,
   jellyPhysics: true,
+  showServerURL: false
 };
 var pressed = {
   " ": false,
@@ -1163,6 +1163,12 @@ function drawGame() {
   mainCtx.fillStyle = settings.darkTheme ? "#111" : "#F2FBFF";
   mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
   if (settings.showGrid) drawGrid();
+  if (settings.showServerURL){
+	  showServerURL();
+  }
+  else if (!settings.showServerURL){
+	  hideServerURL();
+  }
   if (settings.backgroundSectors) drawBackgroundSectors();
 
   toCamera(mainCtx);
@@ -2208,6 +2214,7 @@ function init() {
 window.setserver = function (arg) {
   if (wsUrl === arg) return;
   wsInit(arg);
+  ("serverURL").val(arg);
 };
 window.spectate = function (a) {
   window.isSpectating = true;
@@ -2221,6 +2228,20 @@ window.changeSkin = function (a) {
   byId("gallery").hide();
   byId("gallery-yt").hide();
 };
+
+window.openServer() = function () {
+	if ($("#serverURL").val()!=null && $("#serverURL").val()!= ""){
+		wsInit($("#serverURL").val())
+	}
+}
+window.showServerURL = function () {
+	$("#serverURL").show()
+	$("#server-btn").show()
+}
+window.hideServerURL = function () {
+	$("#serverURL").hide()
+	$("#server-btn").hide()
+}
 window.openSkinsList = function () {
   if (byId("gallery-body").innerHTML == "") buildGallery();
   byId("gallery").show(0.5);
