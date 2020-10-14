@@ -183,7 +183,10 @@
   text-align: left;
   align-content: center;
 }
-
+.namesRange {
+  width: 100%;
+  text-align: center;
+}
 .key {
   font-size: 20px;
   width: 100px;
@@ -197,10 +200,11 @@
   border-radius: 5px;
   background: rgb(56, 53, 53);
   color: white;
-  text-transform: uppercase;
+  cursor: pointer;
   transition: 0.1s;
 }
-.key:hover {
+.key:focus {
+  cursor: default;
   background: rgb(39, 37, 37);
 }
 .selected {
