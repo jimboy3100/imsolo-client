@@ -1545,7 +1545,8 @@ Cell.prototype = {
   drawText: function (ctx) {
     if (this.s < 20 || this.jagged) return;
     var y = this.y;
-    let range = 350; // how far to zoom out from the cell before hiding names and mass
+    let rangeInput = document.getElementById('autoHideNames')
+    let range = rangeInput.value; // how far to zoom out from the cell before hiding names and mass
     if (this.name && settings.showNames && this.viewRange > range) {
       drawText(
         ctx,
@@ -1728,6 +1729,8 @@ function init() {
   (function save() {
     setTimeout(() => {
       setInterval(() => {
+        let namesRangeText = document.getElementsByClassName('settings_namesRange')[0];
+        namesRangeText.innerText = "AutoHideNames Distance: " + document.getElementById("autoHideNames").value
         localStorage.setItem("feed", document.getElementById("feed").value);
         localStorage.setItem(
           "doublesplit",
@@ -1763,6 +1766,7 @@ function init() {
           document.getElementById("botTripleSplit").value
         );
         localStorage.setItem("bot16x", document.getElementById("bot16x").value);
+        localStorage.setItem("namesRange", document.getElementById("autoHideNames").value);
       }, 1);
     }, 1000);
   })();
@@ -1779,6 +1783,7 @@ function init() {
       let bD = localStorage.getItem("botDoubleSplit");
       let bT = localStorage.getItem("botTripleSplit");
       let b16 = localStorage.getItem("bot16x");
+      let nR = localStorage.getItem("namesRange");
       document.getElementById("feed").value = feed;
       document.getElementById("freeze").value = Fz;
       document.getElementById("doublesplit").value = dS;
@@ -1790,45 +1795,30 @@ function init() {
       document.getElementById("botDoubleSplit").value = bD;
       document.getElementById("botTripleSplit").value = bT;
       document.getElementById("bot16x").value = b16;
+      document.getElementById("autoHideNames").value = nR;
     }, 1);
   })();
-  let feed = document.getElementById("feed"),
-    freeze = document.getElementById("freeze"),
-    double = document.getElementById("doublesplit"),
-    triple = document.getElementById("triplesplit"),
-    split16 = document.getElementById("16split"),
-    botFeed = document.getElementById("botFeed"),
-    botFreeze = document.getElementById("botFreeze"),
-    botSplit = document.getElementById("botSplit"),
-    botDouble = document.getElementById("botDoubleSplit"),
-    botTriple = document.getElementById("botTripleSplit"),
-    bot16x = document.getElementById("bot16x"),
-    keys = [
-      feed,
-      freeze,
-      double,
-      triple,
-      split16,
-      botFeed,
-      botSplit,
-      botFreeze,
-      botDouble,
-      botTriple,
-      bot16x,
-    ],
-    keyInput = document.getElementsByClassName("key");
   const handleMouseInput = (() => {
-    for (i = 0; i < keys.length; i++) {
-      [...document.querySelectorAll(".key")].forEach((el) =>
-        el.addEventListener("contextmenu", (e) => e.preventDefault())
-      );
-      keys[i].addEventListener("mousedown", (e) => {
-        e.target.value = "MOUSE" + e.which;
-      });
-      keys[i].addEventListener("keydown", (e) => {
-        e.target.value = String.fromCharCode(e.keyCode);
-      });
-    }
+    [...document.querySelectorAll(".key")].forEach((keyInput) => {
+      keyInput.addEventListener("contextmenu", (e) => e.preventDefault())
+      keyInput.addEventListener('keydown', (e) => {
+          if (keyInput === document.activeElement) {
+              keyInput.value = e.code
+              keyInput.blur();
+          }
+      })
+      keyInput.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          if (keyInput !== document.activeElement) {
+              keyInput.focus();
+              return;
+          }
+          if (keyInput === document.activeElement) {
+              keyInput.value = "MOUSE" + e.which;
+              keyInput.blur();
+          }
+      })
+    });
   })();
   window.isSpectating = false;
   let EjectDown = false,
@@ -1841,8 +1831,8 @@ function init() {
     if (document.getElementById("overlays").style.display == "none")
       inMenu = false;
     if (!isTyping && inMenu == false) {
-      switch (event.keyCode) {
-        case document.getElementById("feed").value.charCodeAt(0):
+      switch (event.code) {
+        case document.getElementById("feed").value:
           if (!EjectDown) {
             wsSend(UINT8_CACHE[21]);
             EjectDown = true;
@@ -1858,7 +1848,7 @@ function init() {
             wsSend(UINT8_CACHE[17]);
           }, macroCooldown2);
           break;
-        case document.getElementById("doublesplit").value.charCodeAt(0):
+        case document.getElementById("doublesplit").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[17]);
@@ -1867,7 +1857,7 @@ function init() {
             }, macroCooldown2);
           }, macroCooldown2);
           break;
-        case document.getElementById("freeze").value.charCodeAt(0):
+        case document.getElementById("freeze").value:
           if (event.repeat) return;
           setTimeout(function () {
             X = window.innerWidth / 2;
@@ -1877,7 +1867,7 @@ function init() {
             );
           }, macroCooldown2);
           break;
-        case document.getElementById("triplesplit").value.charCodeAt(0):
+        case document.getElementById("triplesplit").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[17]);
@@ -1889,7 +1879,7 @@ function init() {
             }, macroCooldown2);
           }, macroCooldown2);
           break;
-        case document.getElementById("16split").value.charCodeAt(0):
+        case document.getElementById("16split").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[17]);
@@ -1904,7 +1894,7 @@ function init() {
             }, macroCooldown2);
           }, macroCooldown2);
           break;
-        case document.getElementById("botFeed").value.charCodeAt(0):
+        case document.getElementById("botFeed").value:
           if (!botEjectDown) {
             wsSend(UINT8_CACHE[23]);
             botEjectDown = true;
@@ -1914,19 +1904,19 @@ function init() {
             }, 450);
           }
           break;
-        case document.getElementById("botSplit").value.charCodeAt(0):
+        case document.getElementById("botSplit").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[22]);
           }, macroCooldown2);
           break;
-        case document.getElementById("botFreeze").value.charCodeAt(0):
+        case document.getElementById("botFreeze").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[24]);
           }, macroCooldown2);
           break;
-        case document.getElementById("botDoubleSplit").value.charCodeAt(0):
+        case document.getElementById("botDoubleSplit").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[22]);
@@ -1935,7 +1925,7 @@ function init() {
             }, macroCooldown2);
           }, macroCooldown2);
           break;
-        case document.getElementById("botTripleSplit").value.charCodeAt(0):
+        case document.getElementById("botTripleSplit").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[22]);
@@ -1947,7 +1937,7 @@ function init() {
             }, macroCooldown2);
           }, macroCooldown2);
           break;
-        case document.getElementById("bot16x").value.charCodeAt(0):
+        case document.getElementById("bot16x").value:
           if (event.repeat) return;
           setTimeout(function () {
             wsSend(UINT8_CACHE[22]);
@@ -1983,11 +1973,11 @@ function init() {
   };
   const keyup = (event) => {
     switch (event.keyCode) {
-      case document.getElementById("feed").value.charCodeAt(0):
+      case document.getElementById("feed").value:
         EjectDown = false;
         speed = 100;
         break;
-      case document.getElementById("botFeed").value.charCodeAt(0):
+      case document.getElementById("botFeed").value:
         botEjectDown = false;
         botFeedSpeed = 85;
         break;
